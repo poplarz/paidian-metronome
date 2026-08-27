@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#171916">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon-192.png">
   <title>拍点 · 离线节拍器</title>
   <style>
     :root{--ink:#ecebe4;--muted:#85877f;--line:#2c2e2a;--panel:#20221f;--raised:#292b27;--orange:#ff6b35;--soft:#ffb08a;--bg:#171916;--shade:rgba(5,6,5,.65)}
@@ -84,6 +86,7 @@
     $('readout').onpointerdown=e=>{drag={x:e.clientX,bpm:state.bpm};e.currentTarget.setPointerCapture(e.pointerId)};$('readout').onpointermove=e=>{if(drag)setBpm(drag.bpm+(e.clientX-drag.x)/4)};$('readout').onpointerup=()=>drag=null;
     document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&playing&&!wakeLock)requestWake()});window.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||$('sheet').open)return;if(e.code==='Space'){e.preventDefault();toggle()}if(e.code==='ArrowUp')setBpm(state.bpm+1);if(e.code==='ArrowDown')setBpm(state.bpm-1)});window.addEventListener('pagehide',stop);
     render();
+    if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
   })();
   </script>
 </body>
